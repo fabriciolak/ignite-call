@@ -5,6 +5,7 @@ import { Heading, Text } from '@ignite-ui/react'
 import { Container, Hero, Preview, Background } from './styles'
 import previewImage from '../../assets/app-preview.png'
 import backgroundImage from '../../assets/background-home.svg'
+import { ClaimUsernameForm } from './components/ClaimUsernameform'
 
 export default function Home() {
   return (
@@ -18,6 +19,8 @@ export default function Home() {
           Conecte seu calendário e permita que as pessoas marquem agendamentos
           no seu tempo livre.
         </Text>
+
+        <ClaimUsernameForm />
       </Hero>
 
       <Preview>

@@ -46,6 +46,10 @@ export const Hero = styled('div', {
   maxWidth: 480,
   marginLeft: 120,
 
+  [`> ${Text}`]: {
+    marginTop: '$2',
+  },
+
   '@media (max-width: 1280px)': {
     margin: '0 auto',
   },
@@ -57,10 +61,10 @@ export const Hero = styled('div', {
   },
 
   '@media (max-width: 580px)': {
-    [`${Text}`]: {
+    [`> ${Text}`]: {
       fontSize: '$md',
     },
-    [`${Heading}`]: {
+    [`> ${Heading}`]: {
       fontSize: '$5xl',
     },
   },
