@@ -8,7 +8,7 @@ import { Container, Form, FormError, Header } from './styles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '../../lib/axios'
 import { AxiosError } from 'axios'
 
@@ -43,15 +43,19 @@ export default function Register() {
     }
   }, [router.query?.username, setValue])
 
+  const [userAlreadyExists, setUserAlreadyExists] = useState<boolean>(false)
+
   async function handleRegister(data: RegisterFormData) {
     try {
       await api.post<RegisterFormData>('/users', {
         name: data.name,
         username: data.username,
       })
+
+      await router.push('/register/connect-calendar')
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
-        alert(err.response.data.message)
+        setUserAlreadyExists(true)
       }
     }
   }
@@ -78,6 +82,11 @@ export default function Register() {
 
           {errors.username && (
             <FormError size="sm">{errors.username.message}</FormError>
+          )}
+          {userAlreadyExists && (
+            <FormError size="sm">
+              Esse nome de usuário não está disponível. Tente outro nome.
+            </FormError>
           )}
         </label>
         <label>
