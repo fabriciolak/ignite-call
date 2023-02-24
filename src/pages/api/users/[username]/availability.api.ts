@@ -79,7 +79,5 @@ export default async function handle(
     return !isTimeBlocked && !isTimeInPast
   })
 
-  console.log(availableTimes)
-
   return res.json({ possibleTime, availableTimes })
 }
