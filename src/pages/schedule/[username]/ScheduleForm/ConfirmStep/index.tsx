@@ -5,6 +5,7 @@ import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from 'dayjs'
 
 const confirmFormSchema = z.object({
   name: z.string().min(3, {
@@ -16,7 +17,15 @@ const confirmFormSchema = z.object({
 
 type ConfirmFormData = z.infer<typeof confirmFormSchema>
 
-export function ConfirmStep() {
+interface ConfirmStepProps {
+  schedulingDate: Date
+  onCancelConfirmation: () => void
+}
+
+export function ConfirmStep({
+  schedulingDate,
+  onCancelConfirmation,
+}: ConfirmStepProps) {
   const {
     register,
     handleSubmit,
@@ -29,16 +38,19 @@ export function ConfirmStep() {
     console.log(data)
   }
 
+  const describedDate = dayjs(schedulingDate).format('DD[ de ]MM[ de ]YYYY')
+  const describedTime = dayjs(schedulingDate).format('HH:hh[h]')
+
   return (
     <ConfirmForm as="form" onSubmit={handleSubmit(handleConfirmScheduling)}>
       <FormHeader>
         <Text>
           <CalendarBlank />
-          22 de setembro de 2023
+          {describedDate}
         </Text>
         <Text>
           <Clock />
-          08h
+          {describedTime}
         </Text>
       </FormHeader>
 
@@ -66,7 +78,7 @@ export function ConfirmStep() {
       </label>
 
       <FormActions>
-        <Button variant="tertiary" type="button">
+        <Button variant="tertiary" type="button" onClick={onCancelConfirmation}>
           Cancelar
         </Button>
         <Button disabled={isSubmitting} type="submit">
