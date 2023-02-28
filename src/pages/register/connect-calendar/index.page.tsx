@@ -1,5 +1,6 @@
 import { Heading, MultiStep, Text, Button } from '@ignite-ui/react'
 import { signIn, useSession } from 'next-auth/react'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 
 import { ArrowRight, Check } from 'phosphor-react'
@@ -23,44 +24,48 @@ export default function ConnectCalendar() {
   }
 
   return (
-    <Container>
-      <Header>
-        <Heading as="strong">Conecte sua agenda!</Heading>
-        <Text>
-          Conecte o seu calendário para verificar automaticamente as horas
-          ocupadas e os novos eventos à medida em que são agendados.
-        </Text>
-        <MultiStep size={4} currentStep={2} />
-      </Header>
+    <>
+      <NextSeo title="Conecte a sua agenda do Google | Ignite Call" noindex />
 
-      <ConnectBox>
-        <ConnectItem>
-          <Text>Google Calendar</Text>
+      <Container>
+        <Header>
+          <Heading as="strong">Conecte sua agenda!</Heading>
+          <Text>
+            Conecte o seu calendário para verificar automaticamente as horas
+            ocupadas e os novos eventos à medida em que são agendados.
+          </Text>
+          <MultiStep size={4} currentStep={2} />
+        </Header>
 
-          {isSignedIn ? (
-            <Button size="sm" disabled>
-              Conectado
-              <Check />
-            </Button>
-          ) : (
-            <Button size="sm" variant="secondary" onClick={handleSignIn}>
-              Conectar
-              <ArrowRight />
-            </Button>
+        <ConnectBox>
+          <ConnectItem>
+            <Text>Google Calendar</Text>
+
+            {isSignedIn ? (
+              <Button size="sm" disabled>
+                Conectado
+                <Check />
+              </Button>
+            ) : (
+              <Button size="sm" variant="secondary" onClick={handleSignIn}>
+                Conectar
+                <ArrowRight />
+              </Button>
+            )}
+          </ConnectItem>
+          {hasAuthError && (
+            <AuthError size="sm">
+              Houve um problema ao tentar se conectar ao Google. Certifique-se
+              de que todas as permissões necessárias estão habilitadas para
+              evitar esse problema
+            </AuthError>
           )}
-        </ConnectItem>
-        {hasAuthError && (
-          <AuthError size="sm">
-            Houve um problema ao tentar se conectar ao Google. Certifique-se de
-            que todas as permissões necessárias estão habilitadas para evitar
-            esse problema
-          </AuthError>
-        )}
-        <Button type="submit" onClick={handleNextStep} disabled={!isSignedIn}>
-          Próximo passo
-          <ArrowRight />
-        </Button>
-      </ConnectBox>
-    </Container>
+          <Button type="submit" onClick={handleNextStep} disabled={!isSignedIn}>
+            Próximo passo
+            <ArrowRight />
+          </Button>
+        </ConnectBox>
+      </Container>
+    </>
   )
 }
